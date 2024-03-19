@@ -1,0 +1,29 @@
+# Set variables for OpenShift API server URL, namespace, and authentication token
+API_SERVER_URL="https://openshift-api-server-url"
+NAMESPACE="your-namespace"
+TOKEN="<your-authentication-token>"
+
+# Define the Pod JSON definition
+POD_JSON='{
+  "apiVersion": "v1",
+  "kind": "Pod",
+  "metadata": {
+    "name": "example-pod"
+  },
+  "spec": {
+    "containers": [
+      {
+        "name": "example-container",
+        "image": "nginx:latest",
+        "ports": [
+          {
+            "containerPort": 80
+          }
+        ]
+      }
+    ]
+  }
+}'
+
+# Send a POST request to create the Pod
+curl -k -X POST -H "Authorization: Bearer ${TOKEN}" -H "Content-Type: application/json" -d "${POD_JSON}" "${API_SERVER_URL}/api/v1/namespaces/${NAMESPACE}/pods"
