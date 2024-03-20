@@ -3,6 +3,59 @@ API_SERVER_URL="https://openshift-api-server-url"
 NAMESPACE="your-namespace"
 TOKEN="<your-authentication-token>"
 
+# Define the Deployment JSON definition
+DEPLOYMENT_JSON='{
+  "apiVersion": "apps/v1",
+  "kind": "Deployment",
+  "metadata": {
+    "name": "example-deployment"
+  },
+  "spec": {
+    "replicas": 1,
+    "selector": {
+      "matchLabels": {
+        "app": "example-app"
+      }
+    },
+    "template": {
+      "metadata": {
+        "labels": {
+          "app": "example-app"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "example-container",
+            "image": "nginx:latest",
+            "ports": [
+              {
+                "containerPort": 80
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}'
+
+# Send a POST request to create the Deployment
+curl -k -X POST -H "Authorization: Bearer ${TOKEN}" -H "Content-Type: application/json" -d "${DEPLOYMENT_JSON}" "${API_SERVER_URL}/apis/apps/v1/namespaces/${NAMESPACE}/deployments"
+
+# Wait for the Deployment to create the Pod
+
+# Determine the Pod's IP address (you can use `oc` or another method)
+
+# SSH into the Pod as root (replace <pod-ip> with the actual Pod's IP address)
+ssh -i /path/to/private_rsa.key root@<pod-ip>
+
+
+# Set variables for OpenShift API server URL, namespace, and authentication token
+API_SERVER_URL="https://openshift-api-server-url"
+NAMESPACE="your-namespace"
+TOKEN="<your-authentication-token>"
+
 # Define the Pod JSON definition
 POD_JSON='{
   "apiVersion": "v1",
@@ -27,3 +80,21 @@ POD_JSON='{
 
 # Send a POST request to create the Pod
 curl -k -X POST -H "Authorization: Bearer ${TOKEN}" -H "Content-Type: application/json" -d "${POD_JSON}" "${API_SERVER_URL}/api/v1/namespaces/${NAMESPACE}/pods"
+
+
+
+# Set variables for OpenShift API server URL and authentication token
+API_SERVER_URL="https://openshift-api-server-url"
+TOKEN="<your-authentication-token>"
+
+# Define the JSON payload for the new namespace
+NAMESPACE_JSON='{
+  "kind": "Namespace",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "example-namespace"
+  }
+}'
+
+# Send a POST request to create the new namespace
+curl -k -X POST -H "Authorization: Bearer ${TOKEN}" -H "Content-Type: application/json" -d "${NAMESPACE_JSON}" "${API_SERVER_URL}/api/v1/namespaces"
