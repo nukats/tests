@@ -1,14 +1,49 @@
-[req]
-distinguished_name = req_distinguished_name
-req_extensions = v3_req
-
-[req_distinguished_name]
-
-[v3_req]
-basicConstraints = CA:FALSE
-keyUsage = nonRepudiation, digitalSignature, keyEncipherment
-subjectAltName = @alt_names
-
-[alt_names]
-DNS.1 = your.domain.com
-DNS.2 = additional.domain.com
+{
+  "apiVersion": "apps/v1",
+  "kind": "Deployment",
+  "metadata": {
+    "name": "example-deployment"
+  },
+  "spec": {
+    "replicas": 1,
+    "selector": {
+      "matchLabels": {
+        "app": "example-app"
+      }
+    },
+    "template": {
+      "metadata": {
+        "labels": {
+          "app": "example-app"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "example-container",
+            "image": "nginx:latest",
+            "ports": [
+              {
+                "containerPort": 80
+              }
+            ],
+            "volumeMounts": [
+              {
+                "name": "html-volume",
+                "mountPath": "/usr/share/nginx/html"
+              }
+            ]
+          }
+        ],
+        "volumes": [
+          {
+            "name": "html-volume",
+            "hostPath": {
+              "path": "/path/to/host/folder"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
