@@ -18,20 +18,10 @@
         }
       },
       "spec": {
-        "volumes": [
-          {
-            "name": "nginx-emptydir",
-            "emptyDir": {}
-          },
-          {
-            "name": "nginx-cache",
-            "emptyDir": {}
-          }
-        ],
         "containers": [
           {
             "name": "nginx",
-            "image": "nginx",
+            "image": "nginx:latest",
             "ports": [
               {
                 "containerPort": 80
@@ -39,14 +29,24 @@
             ],
             "volumeMounts": [
               {
-                "name": "nginx-emptydir",
-                "mountPath": "/usr/share/nginx/html"
+                "name": "var-run",
+                "mountPath": "/var/run/"
               },
               {
-                "name": "nginx-cache",
-                "mountPath": "/var/cache/nginx"
+                "name": "var-cache-nginx",
+                "mountPath": "/var/cache/nginx/"
               }
             ]
+          }
+        ],
+        "volumes": [
+          {
+            "name": "var-run",
+            "emptyDir": {}
+          },
+          {
+            "name": "var-cache-nginx",
+            "emptyDir": {}
           }
         ]
       }
