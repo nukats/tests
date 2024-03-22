@@ -22,6 +22,10 @@
           {
             "name": "nginx-emptydir",
             "emptyDir": {}
+          },
+          {
+            "name": "nginx-cache",
+            "emptyDir": {}
           }
         ],
         "containers": [
