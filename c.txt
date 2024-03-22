@@ -1,31 +1,4 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: nginx-deployment
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: nginx
-  template:
-    metadata:
-      labels:
-        app: nginx
-    spec:
-      volumes:
-        - name: nginx-emptydir
-          emptyDir: {}
-      containers:
-        - name: nginx
-          image: nginx
-          ports:
-            - containerPort: 80
-          volumeMounts:
-            - name: nginx-emptydir
-              mountPath: /usr/share/nginx/html
-
-
-        {
+{
   "apiVersion": "apps/v1",
   "kind": "Deployment",
   "metadata": {
@@ -64,6 +37,10 @@ spec:
               {
                 "name": "nginx-emptydir",
                 "mountPath": "/usr/share/nginx/html"
+              },
+              {
+                "name": "nginx-cache",
+                "mountPath": "/var/cache/nginx"
               }
             ]
           }
